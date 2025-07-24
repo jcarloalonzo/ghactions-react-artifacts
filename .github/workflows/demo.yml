@@ -30,13 +30,23 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
         # This step uploads the build artifacts
-          name: dist files
-          path: |
-            dist/
-            package.json
+          name: dist-files
+          path: dist
+          # Specify the path to the build artifacts
+          # path: |
+          #   dist
+          #   package.json
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: get build artifacts
+      # This step downloads the build artifacts from the previous job
+        uses: actions/download-artifact@v4
+        with:
+        # Specify the name of the artifact to download
+          name: dist-files
+      - name: Output contents
+        run: ls -la    
       - name: Deploy
         run: echo "Deploying..."
