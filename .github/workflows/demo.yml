@@ -30,7 +30,7 @@ jobs:
       - name: Push Js filename
         id: publish
         # This step sets the output variable with the name of the built JavaScript file
-        run: fin dist/assets/*.js -type f -execdir echo '::set-output name=script-file::{}' ';'  
+        run: find dist/assets/*.js -type f -execdir echo '::set-output name=script-file::{}' ';'  
         # This step builds the website
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -54,5 +54,7 @@ jobs:
           name: dist-files
       - name: Output contents
         run: ls -la    
+      - name: Output filename
+        run: echo "${{ needs.build.outputs.script-file }}"
       - name: Deploy
         run: echo "Deploying..."
